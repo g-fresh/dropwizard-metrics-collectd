@@ -5,7 +5,6 @@ import com.codahale.metrics.ScheduledReporter;
 import com.codahale.metrics.collectd.CollectdReporter;
 import com.codahale.metrics.collectd.SecurityLevel;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.ImmutableList;
 import com.google.common.io.Resources;
 import io.dropwizard.configuration.YamlConfigurationFactory;
 import io.dropwizard.jackson.DiscoverableSubtypeResolver;
@@ -18,6 +17,7 @@ import org.junit.Test;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.io.File;
+import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -71,7 +71,7 @@ public class CollectdReporterFactoryTest {
                 MetricsFactory.class, validator, objectMapper, "dw");
         MetricsFactory config = configFactory.build(new File(Resources.getResource("yaml/metrics.yml").toURI()));
 
-        ImmutableList<ReporterFactory> reporterFactories = config.getReporters();
+        List<ReporterFactory> reporterFactories = config.getReporters();
         assertThat(reporterFactories).hasSize(1);
         CollectdReporterFactory reporterFactory = (CollectdReporterFactory) reporterFactories.iterator().next();
         assertThat(reporterFactory.getHost()).isEqualTo("localhost");
